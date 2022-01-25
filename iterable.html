@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=\, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+
+    <script>
+        let range={
+            from:1,
+            to:5,
+
+            [Symbol.iterator](){
+             this.current=this.from;
+             return this;
+            },
+
+            next(){
+                if(this.current<=this.to){
+                    return {done:false,value:this.current++}
+
+                }
+                else{
+                    return {done:true}
+                }
+            }
+        };
+
+        for(let num of range){
+            console.log(num)
+        }
+
+        let str="hello"
+        let iterator=str[Symbol.iterator]();
+
+        while(true){
+            let result=iterator.next()
+            if(result.done) break;
+            console.log(result.value)
+        }
+
+        let arrayLike={
+            0:"hello",
+            1:"world",
+            length:2
+        }
+        let arr1=Array.from(arrayLike)
+        console.log(arr1.pop())
+    </script>
+</body>
+</html>
