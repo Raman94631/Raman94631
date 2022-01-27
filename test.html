@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="list">
+        <table>
+           <thead></thead>
+            <tbody id="tbody">
+
+             </tbody>
+        </table>
+    </div>
+
+
+    <script>
+       
+        url=`https://fakestoreapi.com/products`;
+        fetch(url).then((response)=>{
+                      return response.json();
+                        }).then((data)=>{
+                            console.log(data)
+                           
+                       })
+                       localStorage.setItem("array",JSON.stringify(array))        
+                      
+                       var array=[]
+                     
+                    
+                       
+                       function addData(){
+                       
+                        
+                           localStorage.setItem("array",JSON.stringify(array))
+                           showData()
+                        }
+                        
+                        
+                        function onDelete(i){
+                            event.preventDefault();
+                            array.splice(i,1);
+                            localStorage.setItem("array",JSON.stringify(array))
+                            showData();
+                        }  
+                        array=JSON.stringify(localStorage.getItem("array"))
+                        
+
+
+                        function showData(data){
+                                var row=" ";  
+                                data.map(function (value,i){
+                                console.log(data);
+                        row+=`<tr>
+                             <td>${i}</td>
+                              <td>${value.id}</td>
+                              <td>${value.image}</td>
+                              <td><button>Add Item</button></td>
+                              </tr>`
+                                    })
+                                    document.getElementById("tbody").innerHTML=row
+                                   
+                                }
+                                //document.getElementById("tbody").addEventListener("click",(e)
+
+
+             function front() {
+            url=`https://fakestoreapi.com/products`;
+   
+   
+           fetch(url).then((response)=>{
+           return response.json();
+        }).then((data)=>{
+         console.log(data.data,'data')
+      showData(data.data)
+
+   })
+           }
+
+                        
+                                                  
+ </script>
+</body>
+</html>
