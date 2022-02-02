@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #more {display: none;}
+        img {
+            width: 200px;
+            height: 200px;
+        }
+
+        h2 {
+            width: 200px;
+        }
+
+        p {
+            width: 200px;
+        }
+
+        #collecteditems {
+            position: fixed;
+            top: 0;
+            right: 0;
+            display: inline-flex;
+
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="last">
+
+    </div>
+    <div style="width: 100vw; display: flex; flex-wrap: wrap;" id="list">
+
+
+    </div>
+
+    <button id="collecteditems" style=color:red onclick="addData(id)">Basket</button>
+    <script>
+
+
+
+
+        var apidata = ""
+        function runapi() {
+
+            url = `https://fakestoreapi.com/products`;
+            fetch(url).then((response) => {
+                return response.json();
+            }).then((data) => {
+                apidata = data
+                showData(data)
+
+            })
+            console.log("data")
+        }
+        runapi()
+
+        var array = []
+
+
+
+
+        function addData(id) {
+
+            const localdata = JSON.parse(localStorage.getItem('final'))
+            let row = ""
+
+            const filter = apidata.map(data => {
+                return localdata.map(value => {
+                    if (data.id == value) {
+                        row += `<div style="margin:5px; border:1px solid red">
+    <img src=${data.image} alt="">
+    <p>Price:-${data.price}</p>
+  
+    <p>Category:-${data.category}</p>
+    <h2>${data.title}</h2>
+   <p>${data.description}</p>
+   
+   <br>
+   <button  style="color:red;" onclick="removeItem(${data.id})">Remove from Basket</button>
+  
+</div>`
+                    }
+                    else {
+                        return true
+                    }
+                })
+
+            })
+            document.getElementById('list').innerHTML = row
+
+        }
+
+
+        function removeItem(id) {
+
+            //  var existingItems = JSON.parse (localStorage.getItem('final'));
+            var items = JSON.parse(localStorage.getItem('final'));
+            var index = items.findIndex(x => x == id);
+            const newda = items.filter((item) => item !== id)
+            var deleted = localStorage.setItem('final', JSON.stringify(newda));
+            console.log(newda)
+            addData()
+        }
+
+
+        // const newda = existingItems.filter((item)=>item!==id)
+        // if(newda!==existingItems){
+
+        //        console.log(existingItems)
+        //       console.log("raman",newda)
+        //       localStorage.setItem("arr", JSON.stringify(newda))
+
+
+
+        array = JSON.stringify(localStorage.getItem("array"))
+
+var ok=99
+
+        function showData(data) {
+            var row = " ";
+            data.map(function (value, i) {
+                var id = value.id
+                row += `<div style="margin:5px; border:1px solid red">
+    <img src=${value.image} alt="">
+    <p>Price:-${value.price}</p>
+    <p>Rate:-${value.rating.rate}</p>
+    <p>Category:-${value.category}</p>
+    <h2>${value.title}</h2>
+   <p>${value.description.length>100?`${value.description.substring(0,ok)}<span onclick= "tantrunt(${value.description.length})">....seeMore </span>`:value.description} </p>
+   
+   <br>
+   <button  style="color:red;" onclick="addToBasket(${id})">Add to Basket</button>
+  
+</div>`
+
+            })
+            document.getElementById('list').innerHTML = row
+        }
+
+ const tantrunt=(data)=>{
+     console.log("heke")
+     ok=3
+ }
+//         function myFunction() {
+//   var dots = document.getElementById("dots");
+//   var moreText = document.getElementById("more");
+//   var btnText = document.getElementById("seemore");
+
+//   if (dots.style.display === "none") {
+//     dots.style.display = "inline";
+//     btnText.innerHTML = "Read more"; 
+//     moreText.style.display = "none";
+  
+//   } else {
+//     dots.style.display = "none";
+//     btnText.innerHTML = "Read less"; 
+//     moreText.style.display = "inline";
+//   }
+// }
+
+
+
+        const newArray = []
+        function addToBasket(value) {
+
+            const data = JSON.parse(localStorage.getItem('final'))
+            if (data && data.length > 0) {
+                const a = data.filter(local => local == value)
+                if (a.length > 0) {
+                    localStorage.setItem("final", JSON.stringify([...data]))
+                }
+                else {
+                    localStorage.setItem("final", JSON.stringify([...data, value]))
+                }
+            }
+            else {
+                localStorage.setItem("final", JSON.stringify([value]))
+            }
+            console.log(value, data)
+        }
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+
+
+</html>
